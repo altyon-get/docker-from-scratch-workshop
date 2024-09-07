@@ -87,6 +87,6 @@ After extracting an image using the `run` command with `chroot`, `/bin/sh` is no
 Accidentally removing the wrong container folder due to path confusion.
 
 **Solution**:
-Before removing a container, make sure you are in the correct directory. If your container is in the working directory, switch to the root directory using:
+Before removing a container, make sure you are in the correct directory. If your container is in the working directory, uncomment this in cleanup.sh :
 ```bash
 pushd /
