@@ -33,6 +33,6 @@ I’ve also included the `ubuntu.tar` image in the `ubuntu-image/` directory. Yo
 ## How to Use This Repo
 
 1. **Clone** the repository.
-2. Navigate to the **level folders** to find the code and explanation for each level.
+2. Navigate to the **level folders** to find the code for each level.
 3. **Refer to known_issues.md** if you face issues during execution.
-4. Use the **provided `ubuntu.tar` image** for quick setup.
+4. Can Use the **provided `ubuntu.tar` image** for quick setup.
