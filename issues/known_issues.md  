@@ -1,0 +1,92 @@
+# Known Issues and Workarounds
+
+This file contains known issues faced during the Docker from Scratch workshop and their corresponding solutions or workarounds.
+
+---
+
+## 1. Installing the Linux Module Issue
+
+**Problem**:  
+While trying to install the Python development headers required for compiling the `linuxmodule.so` file, some users may encounter errors.
+
+**Solution**:
+1. Install the Python 3.10 development headers using the following command:
+    ```bash
+    sudo apt-get install python3.10-dev
+    ```
+
+2. Verify that `Python.h` is available by running:
+    ```bash
+    find /usr/include -name Python.h
+    ```
+
+3. Verify that the Python libraries are available:
+    ```bash
+    find /usr/lib -name "libpython3.10*"
+    ```
+
+4. Compile the `linuxmodule.so` file using the following command:
+    ```bash
+    gcc -Wall -fPIC -shared -o linuxmodule.so linuxmodule.c -I/usr/include/python3.10 -L/usr/lib/x86_64-linux-gnu -lpython3.10
+    ```
+
+---
+
+## 2. Image Not Available
+
+**Problem**:  
+While trying to run a container, the image `ubuntu.tar` might not be available.
+
+**Solution**:
+1. Download the latest Ubuntu Docker image:
+    ```bash
+    docker pull ubuntu
+    ```
+
+2. Save the Docker image to a file:
+    ```bash
+    docker save ubuntu > ubuntu.tar
+    ```
+
+---
+
+## 3. `chroot` Image: `/bin/sh` Not Available
+
+**Problem**:  
+After extracting an image using the `run` command with `chroot`, `/bin/sh` is not available, causing the command to fail.
+
+**Solution**:
+1. Instead of Ubuntu, you can use the `alpine` image, but if you encounter the same issue with `sh`, try using BusyBox.
+
+2. Use BusyBox to provide a shell inside the container:
+    1. Create the necessary directories inside the container:
+       ```bash
+       sudo mkdir -p workshop/containers/<container-id>/rootfs/bin
+       ```
+
+    2. Copy BusyBox into your container:
+       ```bash
+       sudo cp /bin/busybox workshop/containers/<container-id>/rootfs/bin/
+       ```
+
+    3. Now you can run the container using BusyBox’s `sh`:
+       ```bash
+       sudo python3 rd.py run -i alpine /bin/busybox sh
+       ```
+
+    4. You can also test other BusyBox commands:
+       ```bash
+       sudo python3 rd.py run -i alpine /bin/busybox echo "hello"
+       ```
+
+---
+
+## 4. Removing Container Issue
+
+**Problem**:  
+Accidentally removing the wrong container folder due to path confusion.
+
+**Solution**:
+Before removing a container, make sure you are in the correct directory. If your container is in the working directory, switch to the root directory using:
+```bash
+pushd /
